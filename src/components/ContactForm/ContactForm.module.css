@@ -1,0 +1,12 @@
+.formNameInput {
+  display: block;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.formBtn {
+  display: block;
+  margin-top: 14px;
+  padding: 4px 16px;
+  border-radius: 12px;
+}
