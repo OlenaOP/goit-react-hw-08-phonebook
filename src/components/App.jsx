@@ -27,8 +27,10 @@ export class App extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.contacts !== this.state.contacts) {
+  componentDidUpdate(_, prevState) {
+    console.log(prevState.contacts.length);
+    console.log(this.state.contacts.length);
+    if (prevState.contacts.length !== this.state.contacts.length) {
       localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
     }
   }
@@ -55,6 +57,7 @@ export class App extends Component {
     console.log(arr);
     console.log(name, nameID, number);
     this.setState({ contacts: arr });
+    //localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
     form.reset();
   };
 
@@ -76,7 +79,7 @@ export class App extends Component {
     const filter = this.state.filter;
 
     const dataSearch = (filter, contacts) => {
-      return this.state.contacts.filter(user => {
+      return contacts.filter(user => {
         return user.name.toLowerCase().includes(filter.toLowerCase());
       });
     };
