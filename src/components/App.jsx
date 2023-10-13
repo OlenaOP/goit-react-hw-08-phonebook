@@ -28,8 +28,6 @@ export class App extends Component {
   }
 
   componentDidUpdate(_, prevState) {
-    console.log(prevState.contacts.length);
-    console.log(this.state.contacts.length);
     if (prevState.contacts.length !== this.state.contacts.length) {
       localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
     }
@@ -46,17 +44,12 @@ export class App extends Component {
       alert(`${name} is already in contacts`);
       return;
     }
+
     const number = form.elements.number.value;
-    const nameID = nanoid();
-    const arr = this.state.contacts;
-    arr.push({
-      id: nameID,
-      name: name,
-      number: number,
-    });
-    console.log(arr);
-    console.log(name, nameID, number);
-    this.setState({ contacts: arr });
+    this.setState(prevState => ({
+      contacts: [...prevState.contacts, { id: nanoid(), name, number }],
+    }));
+
     //localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
     form.reset();
   };
