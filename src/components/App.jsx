@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import { nanoid } from 'nanoid';
 //model.id = nanoid();
 
@@ -8,90 +9,89 @@ import { Filter } from './Filter/Filter';
 //import css from './App.module.css';
 const LS_KEY = 'Contacts';
 
-export class App extends Component {
-  state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    filter: '',
-  };
+export const App = () => {
+  const firstVarContacts = [
+    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+  ];
+  const [contacts, setContacts] = useState(firstVarContacts);
+  const [filterQuery, setFilterQuery] = useState('');
+  // state = {
+  //   contacts: [
+  //     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+  //     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  //     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+  //     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+  //   ],
+  //   filter: '',
+  // };
 
-  componentDidMount() {
-    const stringifiedContacts = localStorage.getItem(LS_KEY);
-    const parseContacts = JSON.parse(stringifiedContacts);
-    if (parseContacts) {
-      this.setState({ contacts: parseContacts });
-    }
-  }
+  // componentDidMount() {
+  //   const stringifiedContacts = localStorage.getItem(LS_KEY);
+  //   const parseContacts = JSON.parse(stringifiedContacts);
+  //   if (parseContacts) {
+  //     this.setState({ contacts: parseContacts });
+  //   }
+  // }
 
-  componentDidUpdate(_, prevState) {
-    if (prevState.contacts.length !== this.state.contacts.length) {
-      localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
-    }
-  }
+  // componentDidUpdate(_, prevState) {
+  //   if (prevState.contacts.length !== this.state.contacts.length) {
+  //     localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
+  //   }
+  // }
 
-  handleSubmit = evt => {
+  const handleSubmit = evt => {
     evt.preventDefault();
     const form = evt.currentTarget;
     const name = form.elements.name.value;
-    const hasNameDublicate = this.state.contacts.some(
-      contact => contact.name === name
-    );
+    const hasNameDublicate = contacts.some(contact => contact.name === name);
     if (hasNameDublicate) {
       alert(`${name} is already in contacts`);
       return;
     }
 
     const number = form.elements.number.value;
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, { id: nanoid(), name, number }],
-    }));
+    setContacts(prevState => [
+      ...prevState.contacts,
+      { id: nanoid(), name, number },
+    ]);
 
     //localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
     form.reset();
   };
 
-  handleChange = evt => {
-    this.setState({ filter: evt.target.value });
+  const handleChange = evt => {
+    setFilterQuery(evt.target.value);
   };
 
-  handleDelete = contactName => {
-    this.setState(prevState => {
-      return {
-        contacts: prevState.contacts.filter(
-          contact => contact.name !== contactName
-        ),
-      };
+  const handleDelete = contactName => {
+    setContacts(prevState =>
+      prevState.contacts.filter(contact => contact.name !== contactName)
+    );
+  };
+
+  const dataSearch = (filterQuery, contacts) => {
+    return contacts.filter(user => {
+      return user.name.toLowerCase().includes(filterQuery.toLowerCase());
     });
   };
 
-  render() {
-    const filter = this.state.filter;
-
-    const dataSearch = (filter, contacts) => {
-      return contacts.filter(user => {
-        return user.name.toLowerCase().includes(filter.toLowerCase());
-      });
-    };
-
-    return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm handleSubmit={this.handleSubmit} />
-        <h2>Contacts</h2>
-        <Filter filter={filter} handleChange={this.handleChange} />
-        <List
-          title="Contacts"
-          contacts={dataSearch(filter, this.state.contacts)}
-          handleDeleteBook={this.handleDelete}
-          // contacts={this.state.contacts.filter(user => {
-          //   return user.name.toLowerCase().includes(filter.toLowerCase());
-          // })}
-        ></List>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm handleSubmit={handleSubmit} />
+      <h2>Contacts</h2>
+      <Filter filter={filterQuery} handleChange={handleChange} />
+      <List
+        title="Contacts"
+        contacts={dataSearch(filterQuery, contacts)}
+        handleDeleteBook={handleDelete}
+        // contacts={this.state.contacts.filter(user => {
+        //   return user.name.toLowerCase().includes(filter.toLowerCase());
+        // })}
+      ></List>
+    </div>
+  );
+};
