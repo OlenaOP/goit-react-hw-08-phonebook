@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 //model.id = nanoid();
 
@@ -16,17 +16,11 @@ export const App = () => {
     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ];
-  const [contacts, setContacts] = useState(firstVarContacts);
+  const [contacts, setContacts] = useState(() => {
+    return JSON.parse(window.localStorage.getItem(LS_KEY)) ?? firstVarContacts;
+    //якщо нема даних в локальному сховищі, то встановлюємо початкові значення
+  });
   const [filterQuery, setFilterQuery] = useState('');
-  // state = {
-  //   contacts: [
-  //     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-  //     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-  //     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-  //     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  //   ],
-  //   filter: '',
-  // };
 
   // componentDidMount() {
   //   const stringifiedContacts = localStorage.getItem(LS_KEY);
@@ -35,7 +29,12 @@ export const App = () => {
   //     this.setState({ contacts: parseContacts });
   //   }
   // }
-
+  useEffect(() => {
+    // if (prevState.contacts.length !== contacts.length) {
+    console.log('записіваем контактс', contacts);
+    localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+    // }
+  }, [contacts]);
   // componentDidUpdate(_, prevState) {
   //   if (prevState.contacts.length !== this.state.contacts.length) {
   //     localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
@@ -53,10 +52,7 @@ export const App = () => {
     }
 
     const number = form.elements.number.value;
-    setContacts(prevState => [
-      ...prevState.contacts,
-      { id: nanoid(), name, number },
-    ]);
+    setContacts(prevState => [...prevState, { id: nanoid(), name, number }]);
 
     //localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
     form.reset();
@@ -68,7 +64,7 @@ export const App = () => {
 
   const handleDelete = contactName => {
     setContacts(prevState =>
-      prevState.contacts.filter(contact => contact.name !== contactName)
+      prevState.filter(contact => contact.name !== contactName)
     );
   };
 
