@@ -6,7 +6,7 @@ import { nanoid } from 'nanoid';
 import { List } from './List/List';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
-//import css from './App.module.css';
+
 const LS_KEY = 'Contacts';
 
 export const App = () => {
@@ -22,24 +22,10 @@ export const App = () => {
   });
   const [filterQuery, setFilterQuery] = useState('');
 
-  // componentDidMount() {
-  //   const stringifiedContacts = localStorage.getItem(LS_KEY);
-  //   const parseContacts = JSON.parse(stringifiedContacts);
-  //   if (parseContacts) {
-  //     this.setState({ contacts: parseContacts });
-  //   }
-  // }
   useEffect(() => {
-    // if (prevState.contacts.length !== contacts.length) {
-    console.log('записіваем контактс', contacts);
+    // if (prevState.contacts.length !== contacts.length)
     localStorage.setItem(LS_KEY, JSON.stringify(contacts));
-    // }
   }, [contacts]);
-  // componentDidUpdate(_, prevState) {
-  //   if (prevState.contacts.length !== this.state.contacts.length) {
-  //     localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
-  //   }
-  // }
 
   const handleSubmit = evt => {
     evt.preventDefault();
@@ -53,8 +39,6 @@ export const App = () => {
 
     const number = form.elements.number.value;
     setContacts(prevState => [...prevState, { id: nanoid(), name, number }]);
-
-    //localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
     form.reset();
   };
 
@@ -84,9 +68,6 @@ export const App = () => {
         title="Contacts"
         contacts={dataSearch(filterQuery, contacts)}
         handleDeleteBook={handleDelete}
-        // contacts={this.state.contacts.filter(user => {
-        //   return user.name.toLowerCase().includes(filter.toLowerCase());
-        // })}
       ></List>
     </div>
   );
