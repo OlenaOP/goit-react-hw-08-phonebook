@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect } from 'react';
+//import { useEffect } from 'react';
 import { nanoid } from 'nanoid';
 //model.id = nanoid();
 
@@ -10,7 +10,7 @@ import { Filter } from './Filter/Filter';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact, addContact, setFilter } from 'redux/ContactsReducer';
 
-const LS_KEY = 'Contacts';
+// const LS_KEY = 'Contacts';
 
 export const App = () => {
   // const firstVarContacts = [
@@ -31,10 +31,10 @@ export const App = () => {
   // });
   // const [filterQuery, setFilterQuery] = useState('');
 
-  useEffect(() => {
-    // if (prevState.contacts.length !== contacts.length)
-    localStorage.setItem(LS_KEY, JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   // if (prevState.contacts.length !== contacts.length)
+  //   localStorage.setItem(LS_KEY, JSON.stringify(contacts));
+  // }, [contacts]);
 
   const handleSubmit = evt => {
     evt.preventDefault();
