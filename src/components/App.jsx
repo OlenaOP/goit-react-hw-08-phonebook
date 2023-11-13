@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { nanoid } from 'nanoid';
 //model.id = nanoid();
 
@@ -7,20 +7,29 @@ import { List } from './List/List';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact, addContact, setFilter } from 'redux/ContactsReducer';
+
 const LS_KEY = 'Contacts';
 
 export const App = () => {
-  const firstVarContacts = [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ];
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(window.localStorage.getItem(LS_KEY)) ?? firstVarContacts;
-    //якщо нема даних в локальному сховищі, то встановлюємо початкові значення
-  });
-  const [filterQuery, setFilterQuery] = useState('');
+  // const firstVarContacts = [
+  //   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+  //   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  //   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+  //   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+  // ];
+
+  const contacts = useSelector(state => state.contacts.contacts);
+  const filterQuery = useSelector(state => state.contacts.filter);
+
+  const dispatch = useDispatch();
+
+  // const [contacts, setContacts] = useState(() => {
+  //   return JSON.parse(window.localStorage.getItem(LS_KEY)) ?? firstVarContacts;
+  //   //якщо нема даних в локальному сховищі, то встановлюємо початкові значення
+  // });
+  // const [filterQuery, setFilterQuery] = useState('');
 
   useEffect(() => {
     // if (prevState.contacts.length !== contacts.length)
@@ -38,18 +47,20 @@ export const App = () => {
     }
 
     const number = form.elements.number.value;
-    setContacts(prevState => [...prevState, { id: nanoid(), name, number }]);
+    dispatch(addContact({ id: nanoid(), name, number }));
+    //setContacts(prevState => [...prevState, { id: nanoid(), name, number }]);
     form.reset();
   };
 
   const handleChange = evt => {
-    setFilterQuery(evt.target.value);
+    dispatch(setFilter(evt.target.value));
   };
 
   const handleDelete = contactName => {
-    setContacts(prevState =>
-      prevState.filter(contact => contact.name !== contactName)
-    );
+    dispatch(deleteContact(contactName));
+    // setContacts(prevState =>
+    //   prevState.filter(contact => contact.name !== contactName)
+    // );
   };
 
   const dataSearch = (filterQuery, contacts) => {
