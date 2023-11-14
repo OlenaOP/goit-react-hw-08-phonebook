@@ -1,6 +1,12 @@
 import css from './Filter.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from 'redux/ContactsReducer';
 
-export const Filter = ({ filter, handleChange }) => {
+export const Filter = () => {
+  
+  const filter = useSelector(state => state.contacts.filter);
+  const dispatch = useDispatch();
+
   return (
     <>
       <label>
@@ -10,7 +16,7 @@ export const Filter = ({ filter, handleChange }) => {
           type="text"
           name="filter"
           value={filter}
-          onChange={handleChange}
+          onChange={evt => dispatch(setFilter(evt.target.value))}
         />
       </label>
     </>

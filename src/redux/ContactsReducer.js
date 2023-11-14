@@ -20,24 +20,6 @@ const contactsSlice = createSlice({
     setFilter: (state, action) => {
       state.filter = action.payload;
     },
-    // setIsLoading(state, action) {
-    //   state.isLoading = action.payload;
-    // },
-    // setPostDetails(state, action) {
-    //   state.postDetailsData = action.payload;
-    // },
-    // setError(state, action) {
-    //   state.error = action.payload;
-    // },
-    // addPost(state, action) {
-    //   // state.posts.push(action.payload);
-    //   state.posts = [...state.posts, action.payload];
-    // },
-    // deletePost(state, action) {
-    //   state.posts = state.posts.filter(post => post.id !== action.payload);
-    //   // const deletePostIndex = state.posts.findIndex(post => post.id === action.payload);
-    //   // state.posts.splice(deletePostIndex, 1);
-    // },
   },
 });
 
