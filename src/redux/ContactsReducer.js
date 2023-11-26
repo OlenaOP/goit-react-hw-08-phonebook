@@ -1,11 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchContacts, addContact, deleteContact } from 'services/api';
+import {
+  // fetchContacts,
+  // addContact,
+  // deleteContact,
+  requestAllContacts,
+  requestAddContact,
+  requestDeleteContact,
+} from 'services/api';
 
 export const fetchContactsThunk = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {
     try {
-      const contacts = await fetchContacts();
+      const contacts = await requestAllContacts();
 
       return contacts; // ЦЕ БУДЕ ЗАПИСАНО В ЕКШИН ПЕЙЛОАД
     } catch (error) {
@@ -18,7 +25,7 @@ export const addContactThunk = createAsyncThunk(
   'contacts/addContact',
   async (newContact, thunkAPI) => {
     try {
-      const contact = await addContact(newContact);
+      const contact = await requestAddContact(newContact);
 
       return contact; // ЦЕ БУДЕ ЗАПИСАНО В ЕКШИН ПЕЙЛОАД
     } catch (error) {
@@ -31,7 +38,7 @@ export const deleteContactThunk = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, thunkAPI) => {
     try {
-      const deletedContact = await deleteContact(contactId);
+      const deletedContact = await requestDeleteContact(contactId);
       console.log('deletedContact', deletedContact);
       return deletedContact; // ЦЕ БУДЕ ЗАПИСАНО В ЕКШИН ПЕЙЛОАД
     } catch (error) {

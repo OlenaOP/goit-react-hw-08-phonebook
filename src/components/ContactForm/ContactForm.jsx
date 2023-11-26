@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addContactThunk } from 'redux/ContactsReducer';
+import { addContactThunk } from 'redux/contactsReducer';
 
 import css from './ContactForm.module.css';
 import { selectContacts } from 'redux/contacts.selector';
