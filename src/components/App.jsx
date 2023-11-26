@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { List } from './List/List';
@@ -8,12 +8,21 @@ import { Navigation } from './Navigation/Navigation';
 import Loader from './Loader';
 
 import { StyledAppContainer } from './App.styled';
+import { useDispatch } from 'react-redux';
+import { refreshThunk } from 'redux/authReducer';
 
 const RegisterPage = lazy(() => import('pages/RegisterPage'));
 const LoginPage = lazy(() => import('pages/LoginPage'));
 const ContactsPage = lazy(() => import('pages/ContactsPage'));
 
 export const App = () => {
+  const dispatch = useDispatch();
+  //const isRefreshing = useSelector(selectAuthIsLoading);
+
+  useEffect(() => {
+    dispatch(refreshThunk());
+  }, [dispatch]);
+
   return (
     <StyledAppContainer>
       <Navigation />

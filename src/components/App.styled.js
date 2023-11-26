@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 export const StyledAppContainer = styled.div`
-  max-width: 1200px;
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
   padding: 0px 15px;
+  background-color: #f3f3f3;
 
   .header {
     padding: 20px;
