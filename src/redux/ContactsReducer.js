@@ -6,7 +6,7 @@ export const fetchContactsThunk = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const contacts = await fetchContacts();
-      //console.log('contactsAll', contacts);
+
       return contacts; // ЦЕ БУДЕ ЗАПИСАНО В ЕКШИН ПЕЙЛОАД
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -103,18 +103,6 @@ const contactsSlice = createSlice({
         state.contacts.isLoading = false;
         state.contacts.error = action.payload;
       }),
-
-  // reducers: {
-  //   deleteContact: (state, action) => {
-  //     state.contacts = state.contacts.filter(el => el.name !== action.payload);
-  //   },
-  //   addContact: (state, action) => {
-  //     state.contacts = [...state.contacts, action.payload];
-  //   },
-  //   setFilter: (state, action) => {
-  //     state.filter = action.payload;
-  //   },
-  // },
 });
 
 // Генератори екшенів
