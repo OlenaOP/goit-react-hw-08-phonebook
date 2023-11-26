@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/ContactsReducer';
+import { deleteContactThunk, fetchContactsThunk } from 'redux/ContactsReducer';
+import { selectContacts, selectContactsFilter } from 'redux/contacts.selector';
 
 export const List = () => {
-  const allContacts = useSelector(state => state.contacts.contacts);
-  const filter = useSelector(state => state.contacts.filter);
+  const allContacts = useSelector(selectContacts);
+  const filter = useSelector(selectContactsFilter);
   const dispatch = useDispatch();
 
   const dataSearch = (filterQuery, contacts) => {
@@ -14,15 +16,19 @@ export const List = () => {
 
   const contacts = dataSearch(filter, allContacts);
 
+  useEffect(() => {
+    dispatch(fetchContactsThunk());
+  }, [dispatch]);
+
   return (
     <ul>
       {contacts.map(contact => {
         return (
           <li key={contact.id}>
-            {contact.name}: {contact.number}{' '}
+            {contact.name}: {contact.phone}{' '}
             <button
               type="button"
-              onClick={() => dispatch(deleteContact(contact.name))}
+              onClick={() => dispatch(deleteContactThunk(contact.id))}
             >
               Delete
             </button>

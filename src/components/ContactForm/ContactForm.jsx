@@ -1,11 +1,11 @@
-import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/ContactsReducer';
+import { addContactThunk } from 'redux/ContactsReducer';
 
 import css from './ContactForm.module.css';
+import { selectContacts } from 'redux/contacts.selector';
 
 export const ContactForm = () => {
-  const contacts = useSelector(state => state.contacts.contacts);
+  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
   const handleSubmit = evt => {
@@ -18,8 +18,8 @@ export const ContactForm = () => {
       return;
     }
 
-    const number = form.elements.number.value;
-    dispatch(addContact({ id: nanoid(), name, number }));
+    const phoneNumber = form.elements.phoneNumber.value;
+    dispatch(addContactThunk({ name, phone: phoneNumber }));
     form.reset();
   };
 
@@ -37,11 +37,11 @@ export const ContactForm = () => {
         />
       </label>
       <label>
-        Number
+        Phone number
         <input
           className={css.formNameInput}
           type="tel"
-          name="number"
+          name="phoneNumber"
           required
         />
       </label>
