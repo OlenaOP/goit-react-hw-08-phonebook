@@ -36,6 +36,8 @@ export const StyledNav = styled.nav`
   border-radius: 10px;
   padding: 10px;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   .headerBtn {
     color: #111;

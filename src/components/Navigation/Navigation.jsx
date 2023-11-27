@@ -1,12 +1,17 @@
 import React from 'react';
 import { StyledNav, StyledNavLink } from './Navigation.styled';
 import { ReactComponent as IconDoor } from '../../assets/images/DoorOpen.svg';
-import { selectAuthAuthenticated } from 'redux/auth.selectors';
+import {
+  selectAuthAuthenticated,
+  selectAuthUserData,
+} from 'redux/auth.selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOutThunk } from 'redux/authReducer';
+import { UserMenu } from 'components/Navigation/UserMenu';
 
 export const Navigation = () => {
   const authenticated = useSelector(selectAuthAuthenticated);
+  const user = useSelector(selectAuthUserData);
   const dispatch = useDispatch();
 
   const onLogOut = () => {
@@ -19,10 +24,7 @@ export const Navigation = () => {
         {authenticated ? (
           <>
             <StyledNavLink to="/contacts">Contacts</StyledNavLink>
-            <button className="headerBtn" onClick={onLogOut}>
-              <IconDoor />
-              Log Out
-            </button>
+            <UserMenu />
           </>
         ) : (
           <>
