@@ -6,11 +6,11 @@ import React from 'react';
 const ContactsPage = () => {
   return (
     <div>
-      <h1>Phonebook</h1>
+      <h1>Add new contact to Phonebook</h1>
       <ContactForm />
-      <h2>Contacts</h2>
+      <h2>Find contact</h2>
       <Filter />
-      <h2>Contacts</h2>
+      <h2>My contacts</h2>
       {<List />}
     </div>
   );
