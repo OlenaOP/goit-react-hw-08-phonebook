@@ -23,7 +23,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 
 import { authReducer } from './authReducer';
-import { contactsReducer } from './contactsReducer';
+import { contactReducer } from './contactsReducer';
 
 const authConfig = {
   key: 'auth',
@@ -32,7 +32,7 @@ const authConfig = {
 };
 
 export const rootReducer = combineReducers({
-  contacts: contactsReducer,
+  contacts: contactReducer,
   auth: persistReducer(authConfig, authReducer),
 });
 

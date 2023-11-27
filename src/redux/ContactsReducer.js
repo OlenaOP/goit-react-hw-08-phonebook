@@ -115,4 +115,4 @@ const contactsSlice = createSlice({
 // Генератори екшенів
 export const { setFilter } = contactsSlice.actions;
 // Редюсер слайсу
-export const contactsReducer = contactsSlice.reducer;
+export const contactReducer = contactsSlice.reducer;
