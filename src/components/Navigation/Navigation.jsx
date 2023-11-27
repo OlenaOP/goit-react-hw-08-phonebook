@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyledNav, StyledNavLink } from './Navigation.styled';
 import { ReactComponent as IconDoor } from '../../assets/images/DoorOpen.svg';
-import { selectAuthAuthenticated } from 'redux/auth.selector';
+import { selectAuthAuthenticated } from 'redux/auth.selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOutThunk } from 'redux/authReducer';
 

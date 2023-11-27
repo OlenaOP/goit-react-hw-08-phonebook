@@ -18,8 +18,8 @@ export const ContactForm = () => {
       return;
     }
 
-    const phoneNumber = form.elements.phoneNumber.value;
-    dispatch(addContactThunk({ name, phone: phoneNumber }));
+    const number = form.elements.phoneNumber.value;
+    dispatch(addContactThunk({ name, number }));
     form.reset();
   };
 

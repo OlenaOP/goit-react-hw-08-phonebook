@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
   // fetchContacts,
   // addContact,
@@ -39,7 +39,7 @@ export const deleteContactThunk = createAsyncThunk(
   async (contactId, thunkAPI) => {
     try {
       const deletedContact = await requestDeleteContact(contactId);
-      console.log('deletedContact', deletedContact);
+      // console.log('deletedContact', deletedContact);
       return deletedContact; // ЦЕ БУДЕ ЗАПИСАНО В ЕКШИН ПЕЙЛОАД
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -68,48 +68,48 @@ const contactsSlice = createSlice({
   },
   extraReducers: builder =>
     builder
-      .addCase(fetchContactsThunk.pending, state => {
-        state.contacts.isLoading = true;
-        state.contacts.error = null;
-      })
+
       .addCase(fetchContactsThunk.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         state.contacts.items = action.payload;
       })
-      .addCase(fetchContactsThunk.rejected, (state, action) => {
-        state.contacts.isLoading = false;
-        state.contacts.error = action.payload;
-      })
 
-      .addCase(addContactThunk.pending, state => {
-        state.contacts.isLoading = true;
-        state.contacts.error = null;
-      })
       .addCase(addContactThunk.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         state.contacts.items.unshift(action.payload);
         // state.products = [action.payload, ...state.products];
         // state.products.push(action.payload);
       })
-      .addCase(addContactThunk.rejected, (state, action) => {
-        state.contacts.isLoading = false;
-        state.contacts.error = action.payload;
-      })
 
-      .addCase(deleteContactThunk.pending, state => {
-        state.contacts.isLoading = true;
-        state.contacts.error = null;
-      })
       .addCase(deleteContactThunk.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         state.contacts.items = state.contacts.items.filter(
           contact => contact.id !== action.payload.id
         );
       })
-      .addCase(deleteContactThunk.rejected, (state, action) => {
-        state.contacts.isLoading = false;
-        state.contacts.error = action.payload;
-      }),
+
+      .addMatcher(
+        isAnyOf(
+          fetchContactsThunk.pending,
+          addContactThunk.pending,
+          deleteContactThunk.pending
+        ),
+        state => {
+          state.contacts.isLoading = true;
+          state.contacts.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          fetchContactsThunk.rejected,
+          addContactThunk.rejected,
+          deleteContactThunk.rejected
+        ),
+        (state, action) => {
+          state.contacts.isLoading = false;
+          state.contacts.error = action.payload;
+        }
+      ),
 });
 
 // Генератори екшенів

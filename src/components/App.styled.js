@@ -4,7 +4,7 @@ export const StyledAppContainer = styled.div`
   max-width: 800px;
   width: 100%;
   margin: 0 auto;
-  padding: 0px 15px;
+  padding: 10px 15px;
   background-color: #f3f3f3;
 
   .header {

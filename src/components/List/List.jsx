@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteContactThunk, fetchContactsThunk } from 'redux/contactsReducer';
 import { selectContacts, selectContactsFilter } from 'redux/contacts.selector';
 
+import css from './List.module.css';
+
 export const List = () => {
   const allContacts = useSelector(selectContacts);
   const filter = useSelector(selectContactsFilter);
@@ -21,17 +23,22 @@ export const List = () => {
   }, [dispatch]);
 
   return (
-    <ul>
+    <ul className={css.list}>
       {contacts.map(contact => {
         return (
           <li key={contact.id}>
-            {contact.name}: {contact.phone}{' '}
-            <button
-              type="button"
-              onClick={() => dispatch(deleteContactThunk(contact.id))}
-            >
-              Delete
-            </button>
+            <div className={css.wrapper}>
+              <p className={css.text}>
+                {contact.name}: {contact.number}
+              </p>
+              <button
+                type="button"
+                className={css.button}
+                onClick={() => dispatch(deleteContactThunk(contact.id))}
+              >
+                Delete
+              </button>
+            </div>
           </li>
         );
       })}
