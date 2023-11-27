@@ -1,22 +1,12 @@
 import React from 'react';
 import { StyledNav, StyledNavLink } from './Navigation.styled';
-import { ReactComponent as IconDoor } from '../../assets/images/DoorOpen.svg';
-import {
-  selectAuthAuthenticated,
-  selectAuthUserData,
-} from 'redux/auth.selectors';
-import { useDispatch, useSelector } from 'react-redux';
-import { logOutThunk } from 'redux/authReducer';
+
+import { selectAuthAuthenticated } from 'redux/auth.selectors';
+import { useSelector } from 'react-redux';
 import { UserMenu } from 'components/Navigation/UserMenu';
 
 export const Navigation = () => {
   const authenticated = useSelector(selectAuthAuthenticated);
-  const user = useSelector(selectAuthUserData);
-  const dispatch = useDispatch();
-
-  const onLogOut = () => {
-    dispatch(logOutThunk());
-  };
 
   return (
     <header>
